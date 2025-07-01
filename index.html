@@ -1,12 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Minecraft Server Status</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой Домашний Сервер</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #222;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+    section {
+      padding: 2rem;
+    }
+    h2 {
+      border-bottom: 2px solid #444;
+      padding-bottom: 0.5rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 0.5rem 0;
+    }
+    a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+    .status {
+      margin-top: 1rem;
+      background: #1b1b1b;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Minecraft server</h1>
-  <iframe src="https://api.mcsrvstat.us/2/server.jstn9.me" style="display:none"></iframe>
-  <img src="http://status.mclive.eu/jstn9/server.jstn9.me/25565/banner.png" alt="Minecraft Server Status">
+  <header>
+    🌐 Добро пожаловать на мой домашний сервер
+  </header>
+
+  <section>
+    <h2>Ссылки на сервисы</h2>
+    <ul>
+      <li>☁️ <a href="https://cloud.jstn9.me" target="_blank">Nextcloud</a></li>
+      <li>📦 <a href="https://portainer.jstn9.me" target="_blank">Portainer</a></li>
+      <li>📊 <a href="https://monitor.jstn9.me" target="_blank">Мониторинг (Glances / Netdata)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Статус игровых серверов</h2>
+
+    <div class="status">
+      <h3>Minecraft: <span id="mc-status">проверка...</span></h3>
+      <p>Игроков онлайн: <span id="mc-players">-</span></p>
+    </div>
+
+    <!-- Можно добавить больше игр здесь -->
+  </section>
+
+  <script>
+    fetch("https://api.mcsrvstat.us/2/server.jstn9.me")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("mc-status").innerText = data.online ? "Онлайн ✅" : "Офлайн ❌";
+        document.getElementById("mc-players").innerText = data.players?.online ?? "0";
+      })
+      .catch(err => {
+        document.getElementById("mc-status").innerText = "Ошибка 😢";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
