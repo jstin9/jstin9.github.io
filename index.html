@@ -8,19 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #a855f7;
-            --primary-container: #1e1b4b;
-            --on-primary: #ffffff;
-            --background: #0f0f23;
-            --surface: #1a1a2e;
-            --surface-variant: #16213e;
-            --on-surface: #e4e6ea;
-            --on-surface-variant: #c4c7c5;
-            --outline: #8e918f;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --success: #4ade80;
-            --warning: #facc15;
+            --primary: #ffffff;
+            --primary-accent: #f8fafc;
+            --secondary: #64748b;
+            --background: #0a0a0a;
+            --surface: #111111;
+            --surface-variant: #1a1a1a;
+            --on-surface: #ffffff;
+            --on-surface-variant: #94a3b8;
+            --border: #262626;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --success: #10b981;
+            --warning: #f59e0b;
             --error: #ef4444;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -31,88 +33,157 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--background) 0%, #16213e 100%);
+            background: var(--background);
             color: var(--on-surface);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 20s infinite linear;
+        }
+
+        .bg-gradient:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-gradient:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(100, 116, 139, 0.1) 0%, transparent 70%);
+            top: 60%;
+            right: 10%;
+            animation-delay: -10s;
+        }
+
+        .bg-gradient:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            bottom: 20%;
+            left: 50%;
+            animation-delay: -5s;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
+            animation: fadeInUp 1.2s ease-out forwards;
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--primary);
             margin-bottom: 1rem;
             letter-spacing: -0.02em;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: var(--on-surface-variant);
-            font-weight: 400;
-            letter-spacing: 0.01em;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 0.3s forwards;
         }
 
         .section {
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
+            animation: fadeInUp 1.2s ease-out forwards;
         }
 
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(2) { animation-delay: 0.6s; }
+        .section:nth-child(3) { animation-delay: 0.9s; }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 600;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             color: var(--on-surface);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
+            justify-content: center;
         }
 
         .section-icon {
-            width: 2rem;
-            height: 2rem;
-            background: linear-gradient(135deg, var(--primary), #06b6d4);
-            border-radius: 0.5rem;
+            width: 3rem;
+            height: 3rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 500;
+            color: var(--primary);
+            font-size: 1.5rem;
+            animation: iconFloat 3s ease-in-out infinite;
         }
 
         .grid {
             display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            justify-items: center;
         }
 
         .card {
-            background: var(--surface);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            width: 100%;
+            max-width: 400px;
         }
 
         .card::before {
@@ -121,21 +192,39 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), #06b6d4);
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
             transform: scaleX(0);
-            transition: transform 0.3s ease;
-            transform-origin: left;
+            transition: transform 0.4s ease;
+            transform-origin: center;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+            border-radius: 50%;
         }
 
         .card:hover::before {
             transform: scaleX(1);
         }
 
+        .card:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px var(--shadow);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px var(--shadow);
         }
 
         .link-card {
@@ -145,40 +234,55 @@
         }
 
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             color: var(--on-surface);
+            position: relative;
+            z-index: 2;
         }
 
         .card-description {
             color: var(--on-surface-variant);
-            line-height: 1.6;
-            margin-bottom: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
         .card-url {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--primary);
-            background: rgba(168, 85, 247, 0.1);
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.5rem;
+            background: var(--surface-variant);
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
             display: inline-block;
+            position: relative;
+            z-index: 2;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .card-url:hover {
+            background: var(--primary);
+            color: var(--background);
         }
 
         .server-info {
             display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
         }
 
         .info-row:last-child {
@@ -197,23 +301,32 @@
         }
 
         .status {
-            padding: 0.375rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.3s ease;
         }
 
         .status.online {
-            background: rgba(74, 222, 128, 0.2);
+            background: rgba(16, 185, 129, 0.2);
             color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status.offline {
             background: rgba(239, 68, 68, 0.2);
             color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status.loading {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .status-dot {
@@ -224,19 +337,42 @@
             animation: pulse 2s infinite;
         }
 
+        .loading-spinner {
+            width: 0.5rem;
+            height: 0.5rem;
+            border: 1px solid currentColor;
+            border-top: 1px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
         .footer {
             text-align: center;
-            padding: 3rem 0;
+            padding: 4rem 0;
             color: var(--on-surface-variant);
             font-size: 0.875rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -244,12 +380,54 @@
             }
         }
 
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px var(--primary);
+            }
+            to {
+                box-shadow: 0 0 20px var(--primary);
+            }
+        }
+
         @keyframes pulse {
             0%, 100% {
                 opacity: 1;
+                transform: scale(1);
             }
             50% {
                 opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes particleFloat {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
             }
         }
 
@@ -259,47 +437,41 @@
             }
 
             .logo {
-                font-size: 2.5rem;
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.25rem;
             }
 
             .section-title {
-                font-size: 1.5rem;
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
             }
 
             .card {
-                padding: 1.5rem;
+                padding: 2rem;
             }
 
             .grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
-        }
 
-        .glow-effect {
-            position: relative;
-        }
-
-        .glow-effect::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .glow-effect:hover::after {
-            opacity: 1;
+            .section {
+                margin-bottom: 4rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-gradient"></div>
+        <div class="bg-gradient"></div>
+    </div>
+
     <div class="container">
         <header class="header">
             <h1 class="logo">JSTN9.ME</h1>
@@ -313,34 +485,10 @@
             </h2>
             <div class="grid">
                 <a href="https://cloud.jstn9.me" class="link-card">
-                    <div class="card glow-effect">
+                    <div class="card">
                         <h3 class="card-title">NextCloud</h3>
-                        <p class="card-description">Personal cloud storage and file synchronization service. Access your files from anywhere, anytime.</p>
+                        <p class="card-description">Personal cloud storage and file synchronization service. Access your files from anywhere, anytime with complete privacy and control.</p>
                         <span class="card-url">cloud.jstn9.me</span>
-                    </div>
-                </a>
-
-                <a href="https://git.jstn9.me" class="link-card">
-                    <div class="card glow-effect">
-                        <h3 class="card-title">Git Repository</h3>
-                        <p class="card-description">Personal Git server hosting private repositories and development projects.</p>
-                        <span class="card-url">git.jstn9.me</span>
-                    </div>
-                </a>
-
-                <a href="https://photos.jstn9.me" class="link-card">
-                    <div class="card glow-effect">
-                        <h3 class="card-title">Photo Gallery</h3>
-                        <p class="card-description">Private photo collection and memories storage with secure access.</p>
-                        <span class="card-url">photos.jstn9.me</span>
-                    </div>
-                </a>
-
-                <a href="https://docs.jstn9.me" class="link-card">
-                    <div class="card glow-effect">
-                        <h3 class="card-title">Documentation</h3>
-                        <p class="card-description">Personal knowledge base and technical documentation hub.</p>
-                        <span class="card-url">docs.jstn9.me</span>
                     </div>
                 </a>
             </div>
@@ -352,9 +500,9 @@
                 Game Servers
             </h2>
             <div class="grid">
-                <div class="card glow-effect">
+                <div class="card">
                     <h3 class="card-title">Minecraft Server</h3>
-                    <p class="card-description">Join our community Minecraft server for an amazing survival experience with friends.</p>
+                    <p class="card-description">Join our community Minecraft server for an amazing survival experience with friends and endless adventures.</p>
                     
                     <div class="server-info">
                         <div class="info-row">
@@ -363,62 +511,26 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Version</span>
-                            <span class="info-value">1.20.4</span>
+                            <span class="info-value" id="server-version">Loading...</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Game Mode</span>
-                            <span class="info-value">Survival</span>
+                            <span class="info-label">Players Online</span>
+                            <span class="info-value" id="players-count">Loading...</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Max Players</span>
-                            <span class="info-value">20</span>
+                            <span class="info-value" id="max-players">Loading...</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Online Players</span>
-                            <span class="info-value">3/20</span>
+                            <span class="info-label">MOTD</span>
+                            <span class="info-value" id="server-motd">Loading...</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Status</span>
-                            <div class="status online">
-                                <div class="status-dot"></div>
-                                Online
+                            <div class="status loading" id="server-status">
+                                <div class="loading-spinner"></div>
+                                Checking...
                             </div>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Uptime</span>
-                            <span class="info-value">7d 14h 32m</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card glow-effect">
-                    <h3 class="card-title">Server Features</h3>
-                    <p class="card-description">What makes our Minecraft server special and unique for players.</p>
-                    
-                    <div class="server-info">
-                        <div class="info-row">
-                            <span class="info-label">Protection</span>
-                            <span class="info-value">GriefPrevention</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Economy</span>
-                            <span class="info-value">Enabled</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">PvP</span>
-                            <span class="info-value">Disabled</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Difficulty</span>
-                            <span class="info-value">Normal</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">World Border</span>
-                            <span class="info-value">10,000 blocks</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Backup</span>
-                            <span class="info-value">Daily</span>
                         </div>
                     </div>
                 </div>
@@ -431,82 +543,104 @@
     </div>
 
     <script>
-        // Add smooth scrolling for better UX
         document.addEventListener('DOMContentLoaded', function() {
-            // Animate cards on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all cards
-            document.querySelectorAll('.card').forEach(card => {
-                observer.observe(card);
-            });
-
-            // Add dynamic server status check (simulated)
-            function updateServerStatus() {
-                const statusElement = document.querySelector('.status');
-                const isOnline = Math.random() > 0.1; // 90% uptime simulation
-                
-                if (isOnline) {
-                    statusElement.className = 'status online';
-                    statusElement.innerHTML = '<div class="status-dot"></div>Online';
-                } else {
-                    statusElement.className = 'status offline';
-                    statusElement.innerHTML = '<div class="status-dot"></div>Offline';
-                }
-            }
-
-            // Update status every 30 seconds (for demo purposes)
-            setInterval(updateServerStatus, 30000);
-
-            // Add floating particles effect
+            // Create floating particles
             function createParticle() {
                 const particle = document.createElement('div');
+                particle.className = 'particle';
                 particle.style.cssText = `
-                    position: fixed;
-                    width: 4px;
-                    height: 4px;
-                    background: rgba(168, 85, 247, 0.6);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: -1;
                     left: ${Math.random() * 100}vw;
                     top: 100vh;
-                    animation: float ${5 + Math.random() * 5}s linear infinite;
+                    animation: particleFloat ${8 + Math.random() * 8}s linear infinite;
                 `;
                 
                 document.body.appendChild(particle);
                 
                 setTimeout(() => {
                     particle.remove();
-                }, 10000);
+                }, 16000);
             }
 
             // Create particles periodically
-            setInterval(createParticle, 2000);
+            setInterval(createParticle, 3000);
 
-            // Add CSS animation for particles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes float {
-                    to {
-                        transform: translateY(-100vh) rotate(360deg);
-                        opacity: 0;
+            // Initial particles
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createParticle, i * 1000);
+            }
+
+            // Fetch Minecraft server status
+            async function fetchServerStatus() {
+                try {
+                    const response = await fetch('https://api.mcsrvstat.us/2/server.jstn9.me');
+                    const data = await response.json();
+                    
+                    if (data.online) {
+                        // Update status
+                        document.getElementById('server-status').innerHTML = '<div class="status-dot"></div>Online';
+                        document.getElementById('server-status').className = 'status online';
+                        
+                        // Update server info
+                        document.getElementById('server-version').textContent = data.version || 'Unknown';
+                        document.getElementById('players-count').textContent = data.players ? data.players.online : '0';
+                        document.getElementById('max-players').textContent = data.players ? data.players.max : 'Unknown';
+                        document.getElementById('server-motd').textContent = data.motd ? data.motd.clean[0] : 'A Minecraft Server';
+                    } else {
+                        // Server offline
+                        document.getElementById('server-status').innerHTML = '<div class="status-dot"></div>Offline';
+                        document.getElementById('server-status').className = 'status offline';
+                        
+                        document.getElementById('server-version').textContent = 'N/A';
+                        document.getElementById('players-count').textContent = '0';
+                        document.getElementById('max-players').textContent = 'N/A';
+                        document.getElementById('server-motd').textContent = 'Server Offline';
                     }
+                } catch (error) {
+                    console.error('Failed to fetch server status:', error);
+                    document.getElementById('server-status').innerHTML = '<div class="status-dot"></div>Error';
+                    document.getElementById('server-status').className = 'status offline';
+                    
+                    document.getElementById('server-version').textContent = 'Error';
+                    document.getElementById('players-count').textContent = 'Error';
+                    document.getElementById('max-players').textContent = 'Error';
+                    document.getElementById('server-motd').textContent = 'Failed to load';
                 }
-            `;
-            document.head.appendChild(style);
+            }
+
+            // Initial fetch
+            fetchServerStatus();
+
+            // Update every 30 seconds
+            setInterval(fetchServerStatus, 30000);
+
+            // Parallax effect for background gradients
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const gradients = document.querySelectorAll('.bg-gradient');
+                
+                gradients.forEach((gradient, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    gradient.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+
+            // Add scroll reveal animation
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.card, .section').forEach(el => {
+                observer.observe(el);
+            });
         });
     </script>
 </body>
