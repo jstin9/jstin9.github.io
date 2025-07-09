@@ -24,6 +24,8 @@
             --error: #ef4444;
             --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
         }
 
         * {
@@ -347,6 +349,75 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Download buttons */
+        .download-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
+        }
+
+        .download-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--on-surface);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            flex: 1;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            background: var(--surface);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
         .footer {
             text-align: center;
             padding: 4rem 0;
@@ -463,6 +534,16 @@
             .section {
                 margin-bottom: 4rem;
             }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-btn {
+                width: 100%;
+                max-width: 280px;
+            }
         }
     </style>
 </head>
@@ -532,6 +613,18 @@
                                 <div class="loading-spinner"></div>
                                 Checking...
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="download-section">
+                        <h4 class="download-title">Download Modpack</h4>
+                        <div class="download-buttons">
+                            <a href="#" class="download-btn" onclick="downloadFile('mrpack')">
+                                <span>Modrinth Pack</span>
+                            </a>
+                            <a href="#" class="download-btn" onclick="downloadFile('zip')">
+                                <span>ZIP Archive</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -643,6 +736,28 @@
                 observer.observe(el);
             });
         });
+
+        // Download function for modpack files
+        function downloadFile(type) {
+            // Replace these URLs with your actual Google Drive download links
+            const downloadUrls = {
+                'mrpack': 'https://drive.google.com/uc?export=download&id=1p3vgfBhuM30cEnuyGoBKk6yoH756HyAW',
+                'zip': 'https://drive.google.com/uc?export=download&id=1T3OebFQ43Ti88HXBrlWFGD5kNo8Zz2yi'
+            };
+            
+            const url = downloadUrls[type];
+            if (url) {
+                // Create temporary link element and trigger download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = type === 'mrpack' ? 'modpack.mrpack' : 'modpack.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                alert('Download link not configured yet!');
+            }
+        }
     </script>
 </body>
 </html>
